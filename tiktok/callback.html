@@ -1,0 +1,14 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Conectando TikTok · Don Villaplata</title><link rel="stylesheet" href="../style.css"></head><body><main>
+<h1>Conectando TikTok…</h1><p id="m" class="muted">Volviendo al panel de control.</p>
+<script>
+// TikTok only accepts a public https redirect, so it lands here and we hand the code back to the dashboard running on the owner's PC.
+// The dashboard address travels inside `state` ("<token>.<base64url(origin)>"). Only local-network addresses are allowed.
+(function(){
+  var q=new URLSearchParams(location.search), st=q.get("state")||"", parts=st.split("."), origin="";
+  try{origin=atob((parts[1]||"").replace(/-/g,"+").replace(/_/g,"/"))}catch(e){}
+  var ok=/^https?:\/\/(localhost|127\.0\.0\.1|192\.168\.\d+\.\d+|10\.\d+\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|[\w-]+\.local|[\w-]+\.ts\.net)(:\d+)?$/.test(origin);
+  if(ok){location.replace(origin+"/oauth/tiktok/callback"+location.search);return}
+  document.getElementById("m").innerHTML="No encuentro el panel. Copia la dirección de esta página y pégala en el panel (Configuración → TikTok → «Pegar enlace»).";
+})();
+</script></main></body></html>
